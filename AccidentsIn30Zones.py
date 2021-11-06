@@ -103,6 +103,6 @@ fig.update_layout(
         ]},
     margin = {'l':0, 'r':0, 'b':0, 't':0},
     mapbox_style =  'mapbox://styles/mapbox/light-v10',
-    mapbox_accesstoken = "pk.eyJ1IjoidG9iaWlpIiwiYSI6ImNrdm54OGppazVvazgzM29rOXo0bjRuaW0ifQ.AvQNkchw1ICRC7fjhUpB4A"
+    mapbox_accesstoken = "pk.eyJ1IjoidG9iaWlpIiwiYSI6ImNrdm54dfsdfOGppazVvazgzM2dfsd9rOXo0bjRuaW0ifQ.AvQNkchw1ICRC7fjhUpB4A"
 )
 fig.show()
