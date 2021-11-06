@@ -103,11 +103,14 @@ df_school = pd.read_csv(path, sep=';')
 #     }
 
 
-# loc = df_school['Geo Point'][0].split(sep=',')
-# print(loc)
-# lat = []
-# lon = []
-
+latitude = []
+longitude = []
+for oneSchool in df_school['Geo Point']:
+    p_e, p_n = oneSchool.split(',')
+    p_e = float(p_e)
+    p_n = float(p_n)
+    latitude.append(p_e)
+    longitude.append(p_n)
 # for col in df_school['Geo Point']:
 #     loc = col.split(sep=',')
 #     lat.append(float(loc[0]))
@@ -116,9 +119,9 @@ df_school = pd.read_csv(path, sep=';')
 # df_school['latitude'] = lat
 # df_school['longitude'] = lon
 
-fig = px.scatter_mapbox(df_school, lat='Latitude', lon='Longitude',
+fig = px.scatter_mapbox(lat=latitude, lon=longitude, text=df_school['Schulhaus'],
                   color_continuous_scale=px.colors.cyclical.IceFire,
-                  size_max=15, zoom=10, mapbox_style="carto-positron", text='Schulhaus')
+                  size_max=15, zoom=10, mapbox_style="carto-positron")
 # fig = px.scatter_mapbox(lat=lat, lon=lon,
 #                   color_continuous_scale=px.colors.cyclical.IceFire, size_max=15, zoom=10,
 #                   mapbox_style="carto-positron")
