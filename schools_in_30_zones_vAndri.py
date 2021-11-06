@@ -71,7 +71,7 @@ for i in range(len(latitude)):
     farb.append(156)
 
 fig = px.scatter_mapbox(lat=latitude, lon=longitude, text=df_schools['Schulhaus'],
-                  size_max=15, zoom=15, mapbox_style="carto-positron", color=farb)
+                  size_max=15, zoom=12, mapbox_style="carto-positron", color=farb)
 #fig.show()
 lon, lat = zones[0].exterior.xy
 # print(lon, lat)
@@ -79,7 +79,7 @@ lon, lat = zones[0].exterior.xy
 
 for zone in zones:
     lon, lat = zone.exterior.xy
-    tmp = px.line_mapbox(lat=lat, lon=lon, zoom=15, mapbox_style="carto-positron")
+    tmp = px.line_mapbox(lat=lat, lon=lon, zoom=12, mapbox_style="carto-positron")
     fig.add_trace(tmp.data[0])
     fig.update_layout(mapbox_style='carto-positron')
     fig.update_layout(margin={'r': 0, 't': 0, 'l': 0, 'b': 0})
