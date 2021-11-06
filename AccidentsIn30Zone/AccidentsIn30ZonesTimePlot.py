@@ -47,43 +47,40 @@ all_zones_with_points = []
 
 for i_zone, row_zone in df_zones.iterrows():
     points_in_this_zone = {"index":i_zone, "date":row_zone['realisiert'], "name":row_zone['gebiet'], "points": []}
-    #points_in_this_zone.name = row_zone['gebiet']
     for i_point, row_point in df_Accidents.iterrows():
         if row_point['point'].within(row_zone['polygon']):
             points_in_this_zone['points'].append({"year":row_point['AccidentYear'], "month":row_point['AccidentMonth']})
     all_zones_with_points.append(points_in_this_zone)
 
-# for zone in all_zones_with_points:
-#     print(zone['name'], "  " , zone['index'])
-#     i = 0
-#     for point in zone['points']:
-#         print(i)
-#         i+=1
 
-accidents_innenstadt = []
-date_30_innenstadt = 0
+def getFigFromZone(theZone):
+    accidents_innenstadt = []
+    date_30_innenstadt = 0
 
-for zone in all_zones_with_points:
-    if zone['name']=='Innenstadt':
-        #print(zone['name'], zone['date'])
-        date_30_innenstadt = zone['date']
-        for point in zone['points']:
-            #print(point)
-            accidents_innenstadt.append(datetime(year=point['year'], month=point['month'], day=1))
+    for zone in all_zones_with_points:
+        if zone['name']==theZone:
+            date_30_innenstadt = zone['date']
+            print(zone['name'], zone['date'])
+            for point in zone['points']:
+                print(point['year'], point['month'])
+                accidents_innenstadt.append(datetime(year=point['year'], month=point['month'], day=1))
 
-amount_before_30 = len(list(filter(lambda l: l < date_30_innenstadt, accidents_innenstadt)))
-years_before_30 = date_30_innenstadt.year - first_accident_year.year
-average_before_30 = amount_before_30 / years_before_30
+    amount_before_30 = len(list(filter(lambda l: l < date_30_innenstadt, accidents_innenstadt)))
+    years_before_30 = date_30_innenstadt.year - first_accident_year.year
+    average_before_30 = amount_before_30 / years_before_30
 
-amount_after_30 = len(list(filter(lambda l: l > date_30_innenstadt, accidents_innenstadt)))
-years_after_30 = date_30_innenstadt.year - first_accident_year.year
-average_after_30 = amount_after_30 / years_after_30
-print(average_before_30, average_after_30)
+    amount_after_30 = len(list(filter(lambda l: l > date_30_innenstadt, accidents_innenstadt)))
+    years_after_30 = last_accident_year.year - date_30_innenstadt.year
+    average_after_30 = amount_after_30 / years_after_30
+    print(amount_before_30, amount_after_30)
 
-labels={
-    "y": 'Durchschnittliche Unfälle pro Jahr',
-    "x": ''
-}
+    labels={
+        "y": 'Durchschnittliche Unfälle pro Jahr',
+        "x": ''
+    }
 
-fig = px.bar(y=[average_before_30, average_after_30], x=['vor Einführung 30er Zone', 'nach Einführung 30er Zone'], labels=labels)
-fig.show()
+    fig = px.bar(y=[average_before_30, average_after_30], x=['vor Einführung 30er Zone', 'nach Einführung 30er Zone'], labels=labels)
+    return fig
+
+fig_innenstadt = getFigFromZone('Innenstadt')
+fig_innenstadt.show()
